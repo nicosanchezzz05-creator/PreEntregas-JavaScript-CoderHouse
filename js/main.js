@@ -1,116 +1,106 @@
+// Nota al margen: Decidi cambiar la estructura de mi proyecto, para no hacerlo tan rebuscado en cuanto a algunas tareas que quiero que pueda realizar, donde seguro mas adelante con los herramientas aprendidas pueda aplicarlo mejor. Como por ej. calcular descuentos de un determinado producto, con su determinado precio, de su determinada plataforma en casos de juegos, etc.
 let openStore = true
-let compraTotal = 0
-const precioJuegoPc1 = 45
-const precioJuegoPc2 = 28
-const precioJuegoPc3 = 55
-const nombreJuegoPc1 = "S.T.A.L.K.E.R Shadow of Chernobyl"
-const nombreJuegoPc2 = "DayZ"
-const nombreJuegoPc3 = "Hell leet loose"
+let juegosPc = ["Stalker", "DayZ", "Hell let loose", "Silent Hill", "The path in to the Abyss"]
 
-const precioJuegoPlay1 = 20
-const precioJuegoPlay2 = 35
-const precioJuegoPlay3 = 80
-const nombreJuegoPlay1 = "Call of duty Black Ops 4"
-const nombreJuegoPlay2 = "God of War"
-const nombreJuegoPlay3 = "Dead by daylight"
+// Agrego un elemento al array al principio
+juegosPc.unshift("Hell let loose: Vietnam")
+// Agrego un elemento al array al final
+juegosPc.push("Watch Dogs")
 
-const descuentoEfectivoA = (compraTotal, descuento) => compraTotal - ((compraTotal * descuento) / 100)
-
-function saludar(nombre){
-	alert("Bienvenido a CheckOut Games " + nombre + "! Ingresa tu nombre y mira lo disponible")
+// validarNombre: Validar un nombre para evitar espacios vacios, puede usarse para nombres de clientes, o nombres de juegos
+function validarNombre(nombre){
+	while (nombre == null || nombre.trim().length < 4)
+		nombre = prompt("------------ ✖️ Opcion no valida ✖️ ------------\n\nPor favor, escribí un nombre que contenga mas de 4 letras...")
+	return nombre
 }
 
-function juegoComprado(juego, compraTotal){
-	alert("Compraste " + juego + ". Tu compra va sumando: " + compraTotal + " USD.")
-}
-
-function sumarCarrito(compra, juego){
-	return compra += juego
-}
-
-function validar(respuesta, argumento1, argumento2,mensaje){
-	while (respuesta != argumento1 && respuesta != argumento2){
-		respuesta = prompt(mensaje)
+// nombresEnMinusculaBusqueda: La idea de esto es generar un array completo en minuscula, para la hora de buscar un juego o x cosa, que el nombre se pueda tomar sin necesidad de tener las mayusculas
+function nombresEnMinusculaBusqueda(juegosPc){
+	let juegosMinuscula = []
+	for(const juegoPc of juegosPc){
+		let nombreJuego = juegoPc.toLowerCase()
+		juegosMinuscula.push(nombreJuego)
 	}
+	return juegosMinuscula
 }
 
-function validarNombre(nombreCliente){
-	while (nombreCliente == null || nombreCliente.length < 4)
-		nombreCliente = prompt("Por favor, escribi un nombre que contenga mas de 4 letras...")
-}
+// BuscadorDeJuego: Busca el juego mediante el parametro, utiliza la funcion nombresEnMinusculaBusqueda para evitar errores de busqueda. Por ejemplo buscar dayz o DAYZ cuando el juego en el array se llama "DayZ". Por otra parte mediante un if/else busca el juego
+function buscadorDeJuego(nombreJuego){
+	let juegosPcMin = nombresEnMinusculaBusqueda(juegosPc)
+	let juegoBuscadoMin = nombreJuego.toLowerCase()
 
-let nombreCliente = prompt("Bienvenido a CheckOut Games, Decinos tu nombre")
-validarNombre(nombreCliente)
-console.log("Cliente registrado: "+ nombreCliente)
-saludar(nombreCliente)
-
-let consola = parseInt(prompt("Juegos de que platafoma buscabas?\n1. PC \n2. PlaySation"))
-
-while(openStore == true){
-	if (consola == 1){
-		let juegosPc = parseInt(prompt("Juegos disponibles para PC\n1. S.T.A.L.K.E.R Shadow of Chernobyl - 45 USD\n2. DayZ - 28USD\n3. Hell leet loose - 55USD\n4. Salir del menu de PC"))
-
-		switch (juegosPc){
-			case 1:
-				compraTotal = sumarCarrito(compraTotal, precioJuegoPc1)
-				juegoComprado(nombreJuegoPc1, compraTotal)
-				console.log("Compra total: " + compraTotal + " USD")
-				break
-			case 2:
-				compraTotal = sumarCarrito(compraTotal, precioJuegoPc2)
-				juegoComprado(nombreJuegoPc2, compraTotal)
-				console.log("Compra total: " + compraTotal + " USD")
-				break
-			case 3:
-				compraTotal = sumarCarrito(compraTotal, precioJuegoPc3)
-				juegoComprado(nombreJuegoPc3, compraTotal)
-				console.log("Compra total: " + compraTotal + " USD")
-				break
-			case 4:
-				break
-			default:
-				console.log("Opcion incorrecta, volve a intentarlo")
-		}
-
-	}else if (consola == 2){
-		let juegosPlay = parseInt(prompt("Juegos disponibles para PlayStation\n1. Call of duty Black Ops 4 - 20 USD\n2. God of War - 35USD\n3. Dead by daylight - 80USD\n4. Salir del menu de PlayStation"))
-		
-		switch (juegosPlay){
-			case 1:
-				compraTotal = sumarCarrito(compraTotal, precioJuegoPlay1)
-				juegoComprado(nombreJuegoPlay1, compraTotal)
-				console.log("Compra total: " + compraTotal + " USD")
-				break
-			case 2:
-				compraTotal = sumarCarrito(compraTotal, precioJuegoPlay2)
-				juegoComprado(nombreJuegoPlay2, compraTotal)
-				console.log("Compra total: " + compraTotal + " USD")
-				break
-			case 3:
-				compraTotal = sumarCarrito(compraTotal, precioJuegoPlay3)
-				juegoComprado(nombreJuegoPlay3, compraTotal)
-				console.log("Compra total: " + compraTotal + " USD")
-				break
-			case 4:
-				break
-			default:
-				console.log("Opcion incorrecta, volve a intentarlo")
-		}
-
+	if (juegosPcMin.includes(juegoBuscadoMin) == true){
+		let posicion = juegosPcMin.indexOf(juegoBuscadoMin) + 1
+		alert("------------ 🗣️ ¡Juego encontrado! 🗣️ ------------\n\nEl titulo " + nombreJuego + " se cuentra en la posición Nro: " + posicion + " de nuestra biblioteca!") 
 	}else{
-		console.log("Opcion incorrecta")
+		alert("------------ 😒 Lo sentimos... 😒 ------------\n\nEl titulo de " + nombreJuego + " no se encuentra disponible en nuestra biblioteca en estos momentos")
 	}
-	
-	let respuesta = prompt("Desea continuar en la tienda? 1. Si | 2. No")
-	validar(respuesta, "1", "2", "Opcion no valida. Quiere seguir en la tienda? 1. Si | 2. No")
+}
 
-	if (respuesta == 2){
-		alert("Gracias por visitar la tienda de CheckOut Games " + nombreCliente + "!. Tu compra total es de " + compraTotal + " USD, pasa a retirarlo al local de 10:00hs a 19:00hs.\n¡IMPORTANTE!\nSi pagas en efectivo, tenes un descuento del 10%, te quedaria a abonar el total de: " + descuentoEfectivoA(compraTotal, 10) + " USD, yo que vos lo pienso...")
-		console.log("TICKET DE COMPRA\nNombre del cliente: " + nombreCliente + "\nCompra total sin descuento: " + compraTotal + "\nCompra total con descuento del 10%: " + descuentoEfectivoA(compraTotal, 10))
-		openStore = false
-
-	}else if(respuesta == 1){
-		consola = parseInt(prompt("Elegi la plataforma | 1. PC - 2. PlaySatation"))
+// Recorrer juegos Pc: Esta funcion sirve para recorrer el array de juegos dando un salto en blanco para cada uno, creo el array mensajeFinal para que al mostrarlo se vea como si fuese una columna
+function recorrerJuegosPc(juegosPc){
+	let mensajeFinal = ""
+	for(const juegoPc of juegosPc){
+		let posicionJuego = juegosPc.indexOf(juegoPc) + 1
+		console.log("Titulo " + posicionJuego + ": " + juegoPc)
+		mensajeFinal += "\nTitulo " + posicionJuego + ": 🏷️ " + juegoPc
 	}
+	return mensajeFinal
+}
 
+// Edita el array de juegos, lo intente hacer lo mas interactivo y demostrativo posible, para preguntar si esta seguro el usuario de realizar un cambio y demotrar que se modifico
+function editorDeBiblioteca(juegoPc){
+	let nroTituloAEditar = parseInt(prompt("Biblioteca de juegos" + recorrerJuegosPc(juegoPc) + "\n Que titulo deseas editar?"))
+
+	let actual = juegoPc[nroTituloAEditar - 1]
+	let reemplazo = prompt("Porque titulo vas a reemplazar a " + juegoPc[nroTituloAEditar - 1] + "?")
+	reemplazo = validarNombre(reemplazo)
+
+	let opcion = parseInt(prompt("Estas por reemplazar el titulo de " + juegoPc[nroTituloAEditar - 1] + " por " + reemplazo + ", deseaas continuar?\n\n1. Si\n2. No"))
+
+	switch (opcion){
+		case 1:
+			juegoPc.splice(nroTituloAEditar - 1, 1, reemplazo)
+			console.log(juegoPc)
+			break
+		case 2:
+			break
+		default:
+			alert("------------ ✖️ Opcion no valida ✖️ ------------")
+			break
+	}
+	alert("Modificación exitosa! " + reemplazo + " ahora se encuentra en el lugar de " + actual)
+	return juegoPc
+}
+
+let nombreCliente = prompt("------------ 🎮 CheckOut Games 🎮 ------------\n\nBienvenido a CheckOut Games! Decinos tu nombre")
+nombreCliente = validarNombre(nombreCliente)
+
+alert("------------ 🎮 CheckOut Games 🎮 ------------\n\nBuenas " + nombreCliente + "! A continuación de brindamos nuestra biblioteca de juegos.\n\n👌¡BUENAS NOTICIAS! Llego " + juegosPc[0] + " a CheckOut Games!\n😤 Malas noticias... Se agoto del stock el titulo " + juegosPc[juegosPc.length - 1] + ", pronto lo tendremos de vuelta...")
+
+// Quito un elemento del final de array, como si se hubiera agotado del stock
+juegosPc.pop()
+
+// while de menu con un flag llamada openStore, cundo la bandera esta en V, la tienda sigue abierta. Dentro hay un switch, lo use porque me parecia mas prolijo que un if, else, else if. Achique mi menu como me recomendaron en la anterior devolucion, y lo simplifique un poco para poder darle mas forma cuando aprendamos cosas mas complejas
+while(openStore == true){
+	let opcionMenu = parseInt(prompt("------------ 🎮 CheckOut Games 🎮 ------------\n\nSelecciona la opción deseada\n1. Buscar un juego de la biblioteca 🔎\n2. Ver biblioteca de juegos disponibles 📚\n3. Editar biblioteca ✏️\n4. Salir ↘️"))
+	switch (opcionMenu){
+		case 1:
+			let buscarJuego = prompt("------------ 🔍 CheckOut Games 🔎 ------------\n\nIngresa el nombre del juego que estas buscando")
+			buscarJuego = validarNombre(buscarJuego)
+			buscadorDeJuego(buscarJuego)
+			break
+		case 2:
+			alert("----------- 📚 Biblioteca de juego 📚 ------------\n\n" + recorrerJuegosPc(juegosPc))
+			break
+		case 3:
+			juegosPc = editorDeBiblioteca(juegosPc)
+			break
+		case 4:
+			alert("------------ 👋 CheckOut Games 👋 ------------\n\nGracias por visitar la tienda de CheckOut Games " + nombreCliente + "! Hasta pronto")
+			openStore = false
+			break
+		default:
+			alert("------------ ✖️ Opcion no valida ✖️ ------------")
+	}
 }
