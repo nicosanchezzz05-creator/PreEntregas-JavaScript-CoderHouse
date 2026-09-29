@@ -72,6 +72,7 @@ function agregarVenta(juegosPc, añadirAlCarrito){
 		acumuladoEnCarrito += juegosPc[añadirAlCarrito - 1].precio
 		juegosPc[añadirAlCarrito - 1].stock -= 1
 		carrito.push(juegosPc[añadirAlCarrito - 1])
+
 	}return carrito
 }
 
@@ -100,7 +101,7 @@ function descuento(acumuladoEnCarrito){
 	return acumuladoEnCarrito
 }
 
-function aplicarDescuento(acumuladoEnCarrito){
+function finalzarCompra(acumuladoEnCarrito){
 	if (acumuladoEnCarrito > 0){
 		let finalizar = parseInt(prompt("Tenes un carrito de un total de " + acumuladoEnCarrito + "\nSi tenes un cupon de descuento, podes aplicarlo al total de tu compra! \n1. Tengo descuento! \n2. No tengo cupon"))
 		finalizar = validarOpcionMenu(finalizar, 1, 2, "\n1. Tengo descuento! \n2. No tengo cupon")
@@ -134,20 +135,25 @@ alert("Buenas " + nombreCliente + "!!! Bienvenido a CheckOut Games ")
 while(openStore == true){
 	let opcionMenu = parseInt(prompt("------------ 🎮 CheckOut Games 🎮 ------------\n\nSelecciona la opción deseada\n1. Buscar un juego de la biblioteca 🔎\n2. Ver biblioteca de juegos disponibles 📚\n3. Comprar Juego\n4. Ver mi carrito\n5. Finalizar compra\n6. Salir ↘️"))
 	switch (opcionMenu){
+		// Buscar un juego de la biblioteca
 		case 1:
 			let buscarJuego = prompt("------------ 🔍 CheckOut Games 🔎 ------------\n\nIngresa el nombre del juego que estas buscando")
 			buscarJuego = validarNombre(buscarJuego)
 			buscadorDeJuego(buscarJuego)
 			break
+		// Ver biblioteca de juegos disponibles
 		case 2:
 			alert("----------- 📚 Biblioteca de juego 📚 ------------\n\n" + recorrerJuegosPc(juegosPc))
 			break
+		// Comprar Juego
 		case 3:
 			let añadirAlCarrito = parseInt(prompt("------------  Zona de compra  ------------\n" + recorrerJuegosPc(juegosPc) + "\nQue titulo deseas comprar? Ingresa su numero"))
 			añadirAlCarrito = validarOpcionBiblioteca(añadirAlCarrito, 1, 4, "un titulo")
 			agregarVenta(juegosPc, añadirAlCarrito)
-			alert("Se añadio al carrito " + juegosPc[añadirAlCarrito - 1].nombreJuego + "\nTotal acumulado: $" + acumuladoEnCarrito) 
+			if (juegosPc[añadirAlCarrito - 1].stock !== 0)
+				alert("Se añadio al carrito " + juegosPc[añadirAlCarrito - 1].nombreJuego + "\nTotal acumulado: $" + acumuladoEnCarrito) 
 			break
+		// Ver mi carrito
 		case 4:
 			if (acumuladoEnCarrito > 0){
 				let modificarCarrito = parseInt(prompt("Tu carrito lleva un total acumulado de : $" + acumuladoEnCarrito + "\n Tus compras fueron:\n" + recorrerCarrito(carrito) + "\nDeseas quitar algun item?\n1. Si\n2. No"))
@@ -161,9 +167,11 @@ while(openStore == true){
 				alert("Aun no tenes nada agregado al carrito!")
 			}
 			break
+		// Finalizar compra
 		case 5:
-			aplicarDescuento(acumuladoEnCarrito)
+			finalzarCompra(acumuladoEnCarrito)
 			break
+		// Salir
 		case 6:
 			if (acumuladoEnCarrito > 0){
 				let salir = parseInt(prompt("Estas por salir con juegos en tu carrito, deseas salir sin finalizar tu compra?\n1. Si\n2. No"))
@@ -172,14 +180,14 @@ while(openStore == true){
 					alert("------------ 👋 CheckOut Games 👋 ------------\n\nGracias por visitar la tienda de CheckOut Games " + nombreCliente + "! Hasta pronto")
 					openStore = false
 					break
+				}else{
+					break
 				}
 			}else{
 				alert("------------ 👋 CheckOut Games 👋 ------------\n\nGracias por visitar la tienda de CheckOut Games " + nombreCliente + "! Hasta pronto")
 				openStore = false
 				break
 			}
-
-			break
 		default:
 			alert("------------ ✖️ Opcion no valida ✖️ ------------")
 			break
