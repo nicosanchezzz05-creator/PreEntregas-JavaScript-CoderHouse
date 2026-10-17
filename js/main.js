@@ -1,21 +1,94 @@
 let openStore = true
-let acumuladoEnCarrito = 0
 let carrito = []
+let acumuladoEnCarrito = 0
 
-class BibliotecaDeJuegos{
-	constructor(nombreJuego, categoria, precio, stock){
-		this.nombreJuego = nombreJuego,
-		this.categoria = categoria,
-		this.precio = precio,
-		this.stock = stock
+const juegosPc = [
+	
+	{
+		nombreJuego: "Stalker",
+		genero: "Accion",
+		estado: "Disponible",
+		precio: 60.00,
+		stock: 2
+	},
+	{
+		nombreJuego: "DayZ",
+		genero: "Supervivencia",
+		estado: "Disponible",
+		precio: 39.00,
+		stock: 6
+	},
+	{
+		nombreJuego: "Silent Hill",
+		genero: "Terror",
+		estado: "Disponible",
+		precio: 50.00,
+		stock: 2
+	},
+	{
+		nombreJuego: "The path in to the abyss",
+		genero: "Supervivencia",
+		estado: "Disponible",
+		precio: 120.00,
+		stock: 2
+	},
+	{
+		nombreJuego: "Hell let loose",
+		genero: "Guerra",
+		estado: "Disponible",
+		precio: 40.00,
+		stock: 5
+	},
+	{
+		nombreJuego: "GTA VI",
+		genero: "Aventura",
+		estado: "No disponible",
+		precio: 150.00,
+		stock: 0
+	},
+	{
+		nombreJuego: "Hell let loose Vietnam",
+		genero: "Guerra",
+		estado: "No disponible",
+		precio: 80.00,
+		stock: 0
+	},
+];
+
+function mostrarJuegos(juegosPc){
+	let mensaje  = ""
+	let item = 1
+	juegosPc.forEach(juegoPc => {
+		mensaje += "Titulo " + item++ + " " + juegoPc.nombreJuego + " Precio: $" + juegoPc.precio + " Stock: " + juegoPc.stock + "\n"
+		})
+	return mensaje
+}
+
+function buscadorDeJuego(nombreJuego){
+	let juegoBuscado = []
+	const buscado = juegosPc.find(b => b.nombreJuego.toLowerCase() == nombreJuego.toLowerCase())
+	juegoBuscado.push(buscado)
+	console.log(juegoBuscado)
+
+	if (juegoBuscado.length > 0){
+		let resultado = mostrarJuegos(juegoBuscado)
+		alert("El juego que buscas esta disponible!\n" + resultado)
+	}else{
+		alert("No se encontro ese juego en la biblioteca")
 	}
 }
 
-const juego1 = new BibliotecaDeJuegos("Stalker", "Accion", 60.00, 4)
-const juego2 = new BibliotecaDeJuegos("Dayz", "Supervivencia", 39.00, 6)
-const juego3 = new BibliotecaDeJuegos("Silent Hill", "Terror", 50.00, 2)
-const juego4 = new BibliotecaDeJuegos("The path in to the abyss", "Accion", 120.00, 2)
-let juegosPc = [juego1, juego2, juego3, juego4]
+function filtrarGenero(genero){
+	const juegosFiltrados = juegosPc.filter(g => g.genero.toLowerCase() == genero.toLowerCase())
+	let resultado = mostrarJuegos(juegosFiltrados)
+	console.log(juegosFiltrados)
+
+	if (juegosFiltrados.length > 0){
+		alert(resultado)
+	}else{
+		alert("No hay juegos con ese genero")
+	}
+}
 
 function validarNombre(nombre){
 	while (nombre == null || nombre.length < 4)
@@ -24,60 +97,33 @@ function validarNombre(nombre){
 }
 
 function validarOpcionBiblioteca(opcion, desde, hasta, mensaje){
-	while (opcion < desde || opcion > hasta)
-		opcion = prompt("------------ ✖️ Opcion no valida ✖️ ------------\n\nPor favor, elegi " + mensaje + " entre el " + desde + " y el " + hasta + "\n" + recorrerJuegosPc(juegosPc)) 
+	let biblioteca = mostrarJuegos(juegosPc)
+	while (isNaN(opcion) || opcion == null || opcion < desde || opcion > hasta)
+		opcion = parseInt(prompt("------------ ✖️ Opcion no valida ✖️ ------------\n\nPor favor, elegi " + mensaje + " entre el " + desde + " y el " + hasta + "\n" + biblioteca) )
 	return opcion
 }            
 
 function validarOpcionMenu(opcion, desde, hasta, mensaje){
-	while (opcion < desde || opcion > hasta)
+	while (isNaN(opcion) || opcion == null || opcion < desde || opcion > hasta)
 		opcion = parseInt(prompt("------------ ✖️ Opcion no valida ✖️ ------------\n\nPor favor, elegi una opcion entre el " + desde + " y el " + hasta + "\n" + mensaje))
 	return opcion
-}
-
-function nombresEnMinusculaBusqueda(juegosPc){
-	let juegosMinuscula = []
-	for(const juegoPc of juegosPc){
-		let nombreJuego = juegoPc.nombreJuego.toLowerCase()
-		juegosMinuscula.push(nombreJuego)
-	}
-	return juegosMinuscula
-}
-
-function buscadorDeJuego(nombreJuego){
-	let juegosPcMin = nombresEnMinusculaBusqueda(juegosPc)
-	let juegoBuscadoMin = nombreJuego.toLowerCase()
-
-	if (juegosPcMin.includes(juegoBuscadoMin) == true){
-		alert("------------ 🗣️ ¡Juego encontrado! 🗣️ ------------\n\nEl titulo " + nombreJuego + " se cuentra en nuestra biblioteca!") 
-	}else{
-		alert("------------ 😒 Lo sentimos... 😒 ------------\n\nEl titulo de " + nombreJuego + " no se encuentra disponible en nuestra biblioteca en estos momentos")
-	}
-}
-
-function recorrerJuegosPc(juegosPc){
-	mensajeFinal = []
-	for(const juegoPc of juegosPc){
-		let posicionJuego = juegosPc.indexOf(juegoPc) + 1
-		let titulo = "\nTitulo " + posicionJuego + ": 🏷️ " + juegoPc.nombreJuego + " | Precio: $" + juegoPc.precio + " | Stock: " + juegoPc.stock
-		mensajeFinal += titulo
-	}
-	return mensajeFinal
 }
 
 function agregarVenta(juegosPc, añadirAlCarrito){
 	if (juegosPc[añadirAlCarrito - 1].stock == 0){
 		alert("Lo sentimos " + nombreCliente + ", aun no tenemos stock dispobible del titulo " + juegosPc[añadirAlCarrito - 1].nombreJuego)
 	}else{
-		acumuladoEnCarrito += juegosPc[añadirAlCarrito - 1].precio
 		juegosPc[añadirAlCarrito - 1].stock -= 1
 		carrito.push(juegosPc[añadirAlCarrito - 1])
+		acumuladoEnCarrito = carrito.reduce((acumulado, p) => acumulado + p.precio,0)
+		alert("Compraste el titulo " + juegosPc[añadirAlCarrito - 1].nombreJuego + " - $" + juegosPc[añadirAlCarrito - 1].precio + "\nTotal acumulado en el carrito: $" + acumuladoEnCarrito)
+		console.log("venta " + acumuladoEnCarrito)
 	}return carrito
 }
 
 function quitarVenta(quitarDelCarrito, carrito){
-	acumuladoEnCarrito -= carrito[quitarDelCarrito - 1].precio
 	carrito[quitarDelCarrito - 1].stock += 1
+	acumuladoEnCarrito -= carrito[quitarDelCarrito - 1].precio
 	carrito.splice(quitarDelCarrito - 1, 1)
 	return carrito
 }
@@ -89,6 +135,7 @@ function recorrerCarrito(carrito){
 		posicionJuego += 1
 		let titulo = "\nItem " + posicionJuego + ": 🏷️ " + item.nombreJuego + " | Precio: $" + item.precio
 		mensajeFinal += titulo
+		console.log("carrito " + acumuladoEnCarrito)
 	}return mensajeFinal
 }
 
@@ -100,7 +147,7 @@ function descuento(acumuladoEnCarrito){
 	return acumuladoEnCarrito
 }
 
-function aplicarDescuento(acumuladoEnCarrito){
+function finalizarCompra(acumuladoEnCarrito){
 	if (acumuladoEnCarrito > 0){
 		let finalizar = parseInt(prompt("Tenes un carrito de un total de " + acumuladoEnCarrito + "\nSi tenes un cupon de descuento, podes aplicarlo al total de tu compra! \n1. Tengo descuento! \n2. No tengo cupon"))
 		finalizar = validarOpcionMenu(finalizar, 1, 2, "\n1. Tengo descuento! \n2. No tengo cupon")
@@ -108,15 +155,16 @@ function aplicarDescuento(acumuladoEnCarrito){
 			case 1:
 				let ingresarDescuento = prompt("Ingresa tu cupon de descuento")
 				ingresarDescuento = validarNombre(ingresarDescuento)
+				let descuentoTotal = descuento(acumuladoEnCarrito)
 				if (codigoDeDescuento == ingresarDescuento){
-					alert("Se agrego el descuento del 10% con tu cupon " + codigoDeDescuento + " en tu total de $" + acumuladoEnCarrito + ". Solo te queda por pagar $" + descuento(acumuladoEnCarrito) + "\nQue disfrutes tu juego" + nombreCliente +  "! Hasta luego👋\nDetalle de compra:\n" + recorrerCarrito(carrito) + "\nTotal: $" + acumuladoEnCarrito + "\nDescuento del 10%: $" + (acumuladoEnCarrito*10)/100 + "\nPrecio final a pagar: $" + descuento(acumuladoEnCarrito))
+					alert("Se agrego el descuento del 10% con tu cupon " + codigoDeDescuento + " en tu total de $" + acumuladoEnCarrito + ". Solo te queda por pagar $" + descuentoTotal + "\nQue disfrutes tu juego" + nombreCliente +  "! Hasta luego👋\nDetalle de compra:\n" + mostrarCarrito + "\nTotal: $" + acumuladoEnCarrito + "\nDescuento del 10%: $" + (acumuladoEnCarrito*10)/100 + "\nPrecio final a pagar: $" + descuentoTotal)
 					openStore = false
 				}else{
 					alert("El codigo de descuento no existe")
 				}
 				break
 			case 2:
-				alert("Ya procesamos tu compra de un total de $" + acumuladoEnCarrito  + "\nQue disfrutes tu juego " + nombreCliente +  "! Hasta luego 👋\nDetalle de compra:\n" + recorrerCarrito(carrito) + "\nPrecio final a pagar: $" + acumuladoEnCarrito)
+				alert("Ya procesamos tu compra de un total de $" + acumuladoEnCarrito  + "\nQue disfrutes tu juego " + nombreCliente +  "! Hasta luego 👋\nDetalle de compra:\n" + mostrarCarrito + "\nPrecio final a pagar: $" + acumuladoEnCarrito)
 				openStore = false
 				break
 				
@@ -132,28 +180,40 @@ nombreCliente = validarNombre(nombreCliente)
 alert("Buenas " + nombreCliente + "!!! Bienvenido a CheckOut Games ")
 
 while(openStore == true){
-	let opcionMenu = parseInt(prompt("------------ 🎮 CheckOut Games 🎮 ------------\n\nSelecciona la opción deseada\n1. Buscar un juego de la biblioteca 🔎\n2. Ver biblioteca de juegos disponibles 📚\n3. Comprar Juego\n4. Ver mi carrito\n5. Finalizar compra\n6. Salir ↘️"))
+	mostrarCarrito = recorrerCarrito(carrito)
+	let opcionMenu = parseInt(prompt("------------ 🎮 CheckOut Games 🎮 ------------\n\nSelecciona la opción deseada\n1. Buscar un juego de la biblioteca 🔎\n2. Ver biblioteca de juegos📚\n3. Filtrar por genero \n4. Comprar Juego\n5. Ver mi carrito\n6. Finalizar compra\n7. Salir ↘️"))
 	switch (opcionMenu){
+		// Buscar un juego de la biblioteca
 		case 1:
 			let buscarJuego = prompt("------------ 🔍 CheckOut Games 🔎 ------------\n\nIngresa el nombre del juego que estas buscando")
 			buscarJuego = validarNombre(buscarJuego)
 			buscadorDeJuego(buscarJuego)
 			break
+		// Ver biblioteca de juegos
 		case 2:
-			alert("----------- 📚 Biblioteca de juego 📚 ------------\n\n" + recorrerJuegosPc(juegosPc))
+			let mostrarJuegosDeBiblioteca = mostrarJuegos(juegosPc)
+			alert("----------- 📚 Biblioteca de juego 📚 ------------\n\n" + mostrarJuegosDeBiblioteca)
 			break
+		// Filtrar por genero
 		case 3:
-			let añadirAlCarrito = parseInt(prompt("------------  Zona de compra  ------------\n" + recorrerJuegosPc(juegosPc) + "\nQue titulo deseas comprar? Ingresa su numero"))
-			añadirAlCarrito = validarOpcionBiblioteca(añadirAlCarrito, 1, 4, "un titulo")
-			agregarVenta(juegosPc, añadirAlCarrito)
-			alert("Se añadio al carrito " + juegosPc[añadirAlCarrito - 1].nombreJuego + "\nTotal acumulado: $" + acumuladoEnCarrito) 
+			let genero = prompt("Que genero buscas?\nSupervivencia\nTerror\nGuerra\nAventura")
+			filtrarGenero(genero)
 			break
+		// Comprar juego
 		case 4:
+			let juegosDisponibles = mostrarJuegos(juegosPc)
+			let añadirAlCarrito = parseInt(prompt("------------  Zona de compra  ------------\n" + juegosDisponibles + "\nQue titulo deseas comprar? Ingresa su numero"))
+			añadirAlCarrito = validarOpcionBiblioteca(añadirAlCarrito, 1, 7, "un titulo")
+			agregarVenta(juegosPc, añadirAlCarrito)
+			break
+		// Ver mi carrito
+		case 5:
 			if (acumuladoEnCarrito > 0){
-				let modificarCarrito = parseInt(prompt("Tu carrito lleva un total acumulado de : $" + acumuladoEnCarrito + "\n Tus compras fueron:\n" + recorrerCarrito(carrito) + "\nDeseas quitar algun item?\n1. Si\n2. No"))
+				let modificarCarrito = parseInt(prompt("Tu carrito lleva un total acumulado de : $" + acumuladoEnCarrito + "\n Tus compras fueron:\n" + mostrarCarrito + "\nDeseas quitar algun item?\n1. Si\n2. No"))
 				modificarCarrito = validarOpcionMenu(modificarCarrito, 1, 2, "\nDeseas quitar algun item?\n1. Si\n2. No")
 				if (modificarCarrito == 1){
-					let eliminarItemDelCarrito = parseInt(prompt("Que item deseas eliminar?\n" + recorrerCarrito(carrito)))
+					let eliminarItemDelCarrito = parseInt(prompt("Que item deseas eliminar?\n" + mostrarCarrito))
+					eliminarItemDelCarrito = validarOpcionMenu(eliminarItemDelCarrito, 1, carrito.length, mostrarCarrito)
 					quitarVenta(eliminarItemDelCarrito, carrito)
 				}
 
@@ -161,10 +221,18 @@ while(openStore == true){
 				alert("Aun no tenes nada agregado al carrito!")
 			}
 			break
-		case 5:
-			aplicarDescuento(acumuladoEnCarrito)
-			break
+		// Finalizar compra
 		case 6:
+			if (acumuladoEnCarrito > 0){
+				finalizarCompra(acumuladoEnCarrito)
+				openStore = false
+				break
+			}else{
+				alert("No tenes nada agregado en tu carrito aun")
+				break
+			}
+		// Salir
+		case 7:
 			if (acumuladoEnCarrito > 0){
 				let salir = parseInt(prompt("Estas por salir con juegos en tu carrito, deseas salir sin finalizar tu compra?\n1. Si\n2. No"))
 				salir = validarOpcionMenu(salir, 1 , 2, "\nDeseas salir sin finalizar tu compra?\n1. Si\n2. No")
@@ -172,14 +240,14 @@ while(openStore == true){
 					alert("------------ 👋 CheckOut Games 👋 ------------\n\nGracias por visitar la tienda de CheckOut Games " + nombreCliente + "! Hasta pronto")
 					openStore = false
 					break
+				}else{
+					break
 				}
 			}else{
 				alert("------------ 👋 CheckOut Games 👋 ------------\n\nGracias por visitar la tienda de CheckOut Games " + nombreCliente + "! Hasta pronto")
-				openStore = false
-				break
+					openStore = false
+					break
 			}
-
-			break
 		default:
 			alert("------------ ✖️ Opcion no valida ✖️ ------------")
 			break
