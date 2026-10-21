@@ -1,255 +1,204 @@
-let openStore = true
-let carrito = []
-let acumuladoEnCarrito = 0
 
-const juegosPc = [
-	
+// let openStore = true
+let carrito = []
+let carritoTotal = 0
+
+let juegosPc = [
 	{
+		id: 10,
 		nombreJuego: "Stalker",
 		genero: "Accion",
 		estado: "Disponible",
 		precio: 60.00,
 		stock: 2
 	},
-	{
+	{	
+		id: 11,
 		nombreJuego: "DayZ",
 		genero: "Supervivencia",
 		estado: "Disponible",
 		precio: 39.00,
 		stock: 6
 	},
-	{
+	{	
+		id: 12,
 		nombreJuego: "Silent Hill",
 		genero: "Terror",
 		estado: "Disponible",
 		precio: 50.00,
 		stock: 2
 	},
-	{
+	{	
+		id: 13,
 		nombreJuego: "The path in to the abyss",
 		genero: "Supervivencia",
 		estado: "Disponible",
 		precio: 120.00,
 		stock: 2
 	},
-	{
+	{	
+		id: 14,
 		nombreJuego: "Hell let loose",
 		genero: "Guerra",
 		estado: "Disponible",
 		precio: 40.00,
 		stock: 5
 	},
-	{
+	{	
+		id: 15,
 		nombreJuego: "GTA VI",
 		genero: "Aventura",
 		estado: "No disponible",
 		precio: 150.00,
 		stock: 0
 	},
-	{
+	{	
+		id: 16,
 		nombreJuego: "Hell let loose Vietnam",
 		genero: "Guerra",
 		estado: "No disponible",
 		precio: 80.00,
 		stock: 0
 	},
+	{	
+		id: 17,
+		nombreJuego: "Worms",
+		genero: "Guerra",
+		estado: "Disponible",
+		precio: 15.00,
+		stock: 14
+	},
+	{	
+		id: 18,
+		nombreJuego: "Project Zomboid",
+		genero: "Supervivencia",
+		estado: "Disponible",
+		precio: 10.00,
+		stock: 10
+	},
 ];
 
-function mostrarJuegos(juegosPc){
-	let mensaje  = ""
-	let item = 1
-	juegosPc.forEach(juegoPc => {
-		mensaje += "Titulo " + item++ + " " + juegoPc.nombreJuego + " Precio: $" + juegoPc.precio + " Stock: " + juegoPc.stock + "\n"
-		})
-	return mensaje
+
+
+
+function refrescarPantalla() {
+    areaDeCompra.innerHTML = "";
+
+    juegosPc.forEach(juegoPc => {
+        cardJuegos(juegoPc);
+    });
 }
 
-function buscadorDeJuego(nombreJuego){
-	let juegoBuscado = []
-	const buscado = juegosPc.find(b => b.nombreJuego.toLowerCase() == nombreJuego.toLowerCase())
-	juegoBuscado.push(buscado)
-	console.log(juegoBuscado)
+function refrescarPantallaCarrito() {
+    areaDeCompra.innerHTML = "";
 
-	if (juegoBuscado.length > 0){
-		let resultado = mostrarJuegos(juegoBuscado)
-		alert("El juego que buscas esta disponible!\n" + resultado)
-	}else{
-		alert("No se encontro ese juego en la biblioteca")
+    carrito.forEach(juego => {
+        mostrarCarrito(juego);
+    });
+}
+
+
+const areaDeCompra = document.getElementById("areaDeCompra")
+
+function cardJuegos(juegosPc){
+	const cardVenta= document.createElement("div")
+	cardVenta.className = "cardVenta"
+
+	const nombre = document.createElement("h5")
+	nombre.innerText = `${juegosPc.nombreJuego}`
+
+	const genero = document.createElement("p")
+	genero.innerText = `Genero: ${juegosPc.genero}`
+	
+	const stock = document.createElement("p")
+	stock.innerText = `Stock: ${juegosPc.stock}`
+
+	const precio = document.createElement("p")
+	precio.innerText = `Precio: $${juegosPc.precio}`
+
+	const botonVer = document.createElement("button")
+	botonVer.innerText = `Ver`
+	botonVer.className = "boton"
+	
+	const botonComprar = document.createElement("button")
+	botonComprar.innerText = `Comprar`
+	botonComprar.className = "boton"
+	botonComprar.addEventListener("click", () => {
+		if (juegosPc.stock > 0){
+		juegosPc.stock -= 1
+		carritoTotal += juegosPc.precio
+		console.log(`suma a carrito: ${juegosPc.precio} | total de carrito: ${carritoTotal}`)
+		actualizarCarrito()
+		carrito.push(juegosPc)
+		console.log(carrito)
+		mostrarCarrito()
+		refrescarPantalla()
+		}}
+	)
+
+	cardVenta.appendChild(nombre)
+	cardVenta.appendChild(genero)
+	cardVenta.appendChild(stock)
+	cardVenta.appendChild(precio)
+	cardVenta.appendChild(botonVer)
+	cardVenta.appendChild(botonComprar)
+	areaDeCompra.appendChild(cardVenta)
+}
+
+juegosPc.forEach(juegoPc => cardJuegos(juegoPc))
+
+const areaCarrito = document.getElementById("areaCarrito")
+function mostrarCarrito(){
+	areaCarrito.innerHTML = ""
+
+	if (carrito.length === 0){
+		areaCarrito.innerHTML = `
+            <div class="carrito-vacio-mensaje">
+                <p>El carrito está vacío 🛒</p>
+            </div>"`;
 	}
-}
 
-function filtrarGenero(genero){
-	const juegosFiltrados = juegosPc.filter(g => g.genero.toLowerCase() == genero.toLowerCase())
-	let resultado = mostrarJuegos(juegosFiltrados)
-	console.log(juegosFiltrados)
+	carrito.forEach((juego, index) => {
+		const cardCarrito = document.createElement("div")
+		cardCarrito.className = "cardCarrito"
 
-	if (juegosFiltrados.length > 0){
-		alert(resultado)
-	}else{
-		alert("No hay juegos con ese genero")
-	}
-}
+		const nombre = document.createElement("h5")
+		nombre.innerText = `${juego.nombreJuego}`
 
-function validarNombre(nombre){
-	while (nombre == null || nombre.length < 4)
-		nombre = prompt("------------ ✖️ Opcion no valida ✖️ ------------\n\nPor favor, escribí un nombre que contenga mas de 4 letras...")
-	return nombre
-}
+		const genero = document.createElement("p")
+		genero.innerText = `Genero: ${juego.genero}`
 
-function validarOpcionBiblioteca(opcion, desde, hasta, mensaje){
-	let biblioteca = mostrarJuegos(juegosPc)
-	while (isNaN(opcion) || opcion == null || opcion < desde || opcion > hasta)
-		opcion = parseInt(prompt("------------ ✖️ Opcion no valida ✖️ ------------\n\nPor favor, elegi " + mensaje + " entre el " + desde + " y el " + hasta + "\n" + biblioteca) )
-	return opcion
-}            
+		const precio = document.createElement("p")
+		precio.innerText = `Precio: $${juego.precio}`
 
-function validarOpcionMenu(opcion, desde, hasta, mensaje){
-	while (isNaN(opcion) || opcion == null || opcion < desde || opcion > hasta)
-		opcion = parseInt(prompt("------------ ✖️ Opcion no valida ✖️ ------------\n\nPor favor, elegi una opcion entre el " + desde + " y el " + hasta + "\n" + mensaje))
-	return opcion
-}
+		const botonQuitarDelCarrito = document.createElement("button")
+		botonQuitarDelCarrito.innerText = `Quitar del carrito`
+		botonQuitarDelCarrito.className = "boton"
+		botonQuitarDelCarrito.addEventListener("click", () => {
 
-function agregarVenta(juegosPc, añadirAlCarrito){
-	if (juegosPc[añadirAlCarrito - 1].stock == 0){
-		alert("Lo sentimos " + nombreCliente + ", aun no tenemos stock dispobible del titulo " + juegosPc[añadirAlCarrito - 1].nombreJuego)
-	}else{
-		juegosPc[añadirAlCarrito - 1].stock -= 1
-		carrito.push(juegosPc[añadirAlCarrito - 1])
-		acumuladoEnCarrito = carrito.reduce((acumulado, p) => acumulado + p.precio,0)
-		alert("Compraste el titulo " + juegosPc[añadirAlCarrito - 1].nombreJuego + " - $" + juegosPc[añadirAlCarrito - 1].precio + "\nTotal acumulado en el carrito: $" + acumuladoEnCarrito)
-		console.log("venta " + acumuladoEnCarrito)
-	}return carrito
-}
+			const juegoEliminado = juegosPc.find(item => item.id === juego.id)
+			if (juegoEliminado){
+				juegoEliminado.stock += 1
+				carritoTotal -= juego.precio
+				console.log(`resta a carrito ${juego.precio}`)
 
-function quitarVenta(quitarDelCarrito, carrito){
-	carrito[quitarDelCarrito - 1].stock += 1
-	acumuladoEnCarrito -= carrito[quitarDelCarrito - 1].precio
-	carrito.splice(quitarDelCarrito - 1, 1)
-	return carrito
-}
-
-function recorrerCarrito(carrito){
-	let mensajeFinal = ""
-	let posicionJuego = 0
-	for(const item of carrito){
-		posicionJuego += 1
-		let titulo = "\nItem " + posicionJuego + ": 🏷️ " + item.nombreJuego + " | Precio: $" + item.precio
-		mensajeFinal += titulo
-		console.log("carrito " + acumuladoEnCarrito)
-	}return mensajeFinal
-}
-
-//CODIGO DE DESCUENTO DEL 10%
-const codigoDeDescuento = "COMPRAGAMER10"
-
-function descuento(acumuladoEnCarrito){
-	acumuladoEnCarrito -= (acumuladoEnCarrito * 10) / 100
-	return acumuladoEnCarrito
-}
-
-function finalizarCompra(acumuladoEnCarrito){
-	if (acumuladoEnCarrito > 0){
-		let finalizar = parseInt(prompt("Tenes un carrito de un total de " + acumuladoEnCarrito + "\nSi tenes un cupon de descuento, podes aplicarlo al total de tu compra! \n1. Tengo descuento! \n2. No tengo cupon"))
-		finalizar = validarOpcionMenu(finalizar, 1, 2, "\n1. Tengo descuento! \n2. No tengo cupon")
-		switch (finalizar){
-			case 1:
-				let ingresarDescuento = prompt("Ingresa tu cupon de descuento")
-				ingresarDescuento = validarNombre(ingresarDescuento)
-				let descuentoTotal = descuento(acumuladoEnCarrito)
-				if (codigoDeDescuento == ingresarDescuento){
-					alert("Se agrego el descuento del 10% con tu cupon " + codigoDeDescuento + " en tu total de $" + acumuladoEnCarrito + ". Solo te queda por pagar $" + descuentoTotal + "\nQue disfrutes tu juego" + nombreCliente +  "! Hasta luego👋\nDetalle de compra:\n" + mostrarCarrito + "\nTotal: $" + acumuladoEnCarrito + "\nDescuento del 10%: $" + (acumuladoEnCarrito*10)/100 + "\nPrecio final a pagar: $" + descuentoTotal)
-					openStore = false
-				}else{
-					alert("El codigo de descuento no existe")
-				}
-				break
-			case 2:
-				alert("Ya procesamos tu compra de un total de $" + acumuladoEnCarrito  + "\nQue disfrutes tu juego " + nombreCliente +  "! Hasta luego 👋\nDetalle de compra:\n" + mostrarCarrito + "\nPrecio final a pagar: $" + acumuladoEnCarrito)
-				openStore = false
-				break
-				
+			}
+			carrito.splice(index, 1)
+			actualizarCarrito()
+			mostrarCarrito()
+			refrescarPantalla()
+			
 		}
-	}else{
-		alert("------------ 👋 CheckOut Games 👋 ------------\n\nGracias por visitar la tienda de CheckOut Games " + nombreCliente + "! Hasta pronto")
-		openStore = false
-	}			
+	)
+		cardCarrito.appendChild(nombre)
+		cardCarrito.appendChild(genero)
+		cardCarrito.appendChild(precio)
+		cardCarrito.appendChild(botonQuitarDelCarrito)
+		areaCarrito.appendChild(cardCarrito)
+	})
 }
 
-let nombreCliente = prompt("------------ 🎮 CheckOut Games 🎮 ------------\n\nBienvenido a CheckOut Games! Decinos tu nombre")
-nombreCliente = validarNombre(nombreCliente)
-alert("Buenas " + nombreCliente + "!!! Bienvenido a CheckOut Games ")
-
-while(openStore == true){
-	mostrarCarrito = recorrerCarrito(carrito)
-	let opcionMenu = parseInt(prompt("------------ 🎮 CheckOut Games 🎮 ------------\n\nSelecciona la opción deseada\n1. Buscar un juego de la biblioteca 🔎\n2. Ver biblioteca de juegos📚\n3. Filtrar por genero \n4. Comprar Juego\n5. Ver mi carrito\n6. Finalizar compra\n7. Salir ↘️"))
-	switch (opcionMenu){
-		// Buscar un juego de la biblioteca
-		case 1:
-			let buscarJuego = prompt("------------ 🔍 CheckOut Games 🔎 ------------\n\nIngresa el nombre del juego que estas buscando")
-			buscarJuego = validarNombre(buscarJuego)
-			buscadorDeJuego(buscarJuego)
-			break
-		// Ver biblioteca de juegos
-		case 2:
-			let mostrarJuegosDeBiblioteca = mostrarJuegos(juegosPc)
-			alert("----------- 📚 Biblioteca de juego 📚 ------------\n\n" + mostrarJuegosDeBiblioteca)
-			break
-		// Filtrar por genero
-		case 3:
-			let genero = prompt("Que genero buscas?\nSupervivencia\nTerror\nGuerra\nAventura")
-			filtrarGenero(genero)
-			break
-		// Comprar juego
-		case 4:
-			let juegosDisponibles = mostrarJuegos(juegosPc)
-			let añadirAlCarrito = parseInt(prompt("------------  Zona de compra  ------------\n" + juegosDisponibles + "\nQue titulo deseas comprar? Ingresa su numero"))
-			añadirAlCarrito = validarOpcionBiblioteca(añadirAlCarrito, 1, 7, "un titulo")
-			agregarVenta(juegosPc, añadirAlCarrito)
-			break
-		// Ver mi carrito
-		case 5:
-			if (acumuladoEnCarrito > 0){
-				let modificarCarrito = parseInt(prompt("Tu carrito lleva un total acumulado de : $" + acumuladoEnCarrito + "\n Tus compras fueron:\n" + mostrarCarrito + "\nDeseas quitar algun item?\n1. Si\n2. No"))
-				modificarCarrito = validarOpcionMenu(modificarCarrito, 1, 2, "\nDeseas quitar algun item?\n1. Si\n2. No")
-				if (modificarCarrito == 1){
-					let eliminarItemDelCarrito = parseInt(prompt("Que item deseas eliminar?\n" + mostrarCarrito))
-					eliminarItemDelCarrito = validarOpcionMenu(eliminarItemDelCarrito, 1, carrito.length, mostrarCarrito)
-					quitarVenta(eliminarItemDelCarrito, carrito)
-				}
-
-			}else{
-				alert("Aun no tenes nada agregado al carrito!")
-			}
-			break
-		// Finalizar compra
-		case 6:
-			if (acumuladoEnCarrito > 0){
-				finalizarCompra(acumuladoEnCarrito)
-				openStore = false
-				break
-			}else{
-				alert("No tenes nada agregado en tu carrito aun")
-				break
-			}
-		// Salir
-		case 7:
-			if (acumuladoEnCarrito > 0){
-				let salir = parseInt(prompt("Estas por salir con juegos en tu carrito, deseas salir sin finalizar tu compra?\n1. Si\n2. No"))
-				salir = validarOpcionMenu(salir, 1 , 2, "\nDeseas salir sin finalizar tu compra?\n1. Si\n2. No")
-				if (salir == 1){
-					alert("------------ 👋 CheckOut Games 👋 ------------\n\nGracias por visitar la tienda de CheckOut Games " + nombreCliente + "! Hasta pronto")
-					openStore = false
-					break
-				}else{
-					break
-				}
-			}else{
-				alert("------------ 👋 CheckOut Games 👋 ------------\n\nGracias por visitar la tienda de CheckOut Games " + nombreCliente + "! Hasta pronto")
-					openStore = false
-					break
-			}
-		default:
-			alert("------------ ✖️ Opcion no valida ✖️ ------------")
-			break
-	}
+const acumuladoEnCarrito = document.getElementById("acumuladoEnCarrito")
+function actualizarCarrito(){
+	acumuladoEnCarrito.innerText = `Acumulado en carrito: $ ${carritoTotal}`
 }
