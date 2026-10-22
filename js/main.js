@@ -10,7 +10,8 @@ let juegosPc = [
 		genero: "Accion",
 		estado: "Disponible",
 		precio: 60.00,
-		stock: 2
+		stock: 2,
+		imagen: "./assets/juegos/stalker.jpg"
 	},
 	{	
 		id: 11,
@@ -18,7 +19,8 @@ let juegosPc = [
 		genero: "Supervivencia",
 		estado: "Disponible",
 		precio: 39.00,
-		stock: 6
+		stock: 6,
+		imagen: "./assets/juegos/dayz.jpg"
 	},
 	{	
 		id: 12,
@@ -26,7 +28,8 @@ let juegosPc = [
 		genero: "Terror",
 		estado: "Disponible",
 		precio: 50.00,
-		stock: 2
+		stock: 2,
+		imagen: "./assets/juegos/silenthill.jpeg"
 	},
 	{	
 		id: 13,
@@ -34,7 +37,8 @@ let juegosPc = [
 		genero: "Supervivencia",
 		estado: "Disponible",
 		precio: 120.00,
-		stock: 2
+		stock: 2,
+		imagen: "./assets/juegos/thepathintotheabyss.jpg"
 	},
 	{	
 		id: 14,
@@ -42,7 +46,8 @@ let juegosPc = [
 		genero: "Guerra",
 		estado: "Disponible",
 		precio: 40.00,
-		stock: 5
+		stock: 5,
+		imagen: "./assets/juegos/hll.jpg"
 	},
 	{	
 		id: 15,
@@ -50,7 +55,8 @@ let juegosPc = [
 		genero: "Aventura",
 		estado: "No disponible",
 		precio: 150.00,
-		stock: 0
+		stock: 0,
+		imagen: "./assets/juegos/gta6.jpeg"
 	},
 	{	
 		id: 16,
@@ -58,7 +64,8 @@ let juegosPc = [
 		genero: "Guerra",
 		estado: "No disponible",
 		precio: 80.00,
-		stock: 0
+		stock: 0,
+		imagen: "./assets/juegos/hhlv.jpeg"
 	},
 	{	
 		id: 17,
@@ -66,7 +73,8 @@ let juegosPc = [
 		genero: "Guerra",
 		estado: "Disponible",
 		precio: 15.00,
-		stock: 14
+		stock: 14,
+		imagen: "./assets/juegos/worms.png"
 	},
 	{	
 		id: 18,
@@ -74,12 +82,10 @@ let juegosPc = [
 		genero: "Supervivencia",
 		estado: "Disponible",
 		precio: 10.00,
-		stock: 10
+		stock: 10,
+		imagen: "./assets/juegos/pz.jpeg"
 	},
 ];
-
-
-
 
 function refrescarPantalla() {
     areaDeCompra.innerHTML = "";
@@ -94,9 +100,19 @@ function refrescarPantallaCarrito() {
 
     carrito.forEach(juego => {
         mostrarCarrito(juego);
+		
     });
 }
 
+function mostrarAlerta(mensaje){
+	const alerta = document.getElementById("alertaFlotante")
+	alerta.innerText = mensaje
+	alerta.classList.remove("alertaOculta")
+
+	setTimeout(() => {
+		alerta.classList.add("alertaFlotante")
+	}, 2000)
+}
 
 const areaDeCompra = document.getElementById("areaDeCompra")
 
@@ -116,46 +132,49 @@ function cardJuegos(juegosPc){
 	const precio = document.createElement("p")
 	precio.innerText = `Precio: $${juegosPc.precio}`
 
-	const botonVer = document.createElement("button")
-	botonVer.innerText = `Ver`
-	botonVer.className = "boton"
+	const imagen = document.createElement("img")
+	imagen.src = juegosPc.imagen
+	imagen.alt = juegosPc.nombreJuego
+	imagen.className = "imgJuego"
 	
 	const botonComprar = document.createElement("button")
 	botonComprar.innerText = `Comprar`
 	botonComprar.className = "boton"
 	botonComprar.addEventListener("click", () => {
-		if (juegosPc.stock > 0){
+	if (juegosPc.stock > 0){
 		juegosPc.stock -= 1
 		carritoTotal += juegosPc.precio
 		console.log(`suma a carrito: ${juegosPc.precio} | total de carrito: ${carritoTotal}`)
 		actualizarCarrito()
 		carrito.push(juegosPc)
-		console.log(carrito)
+		
 		mostrarCarrito()
 		refrescarPantalla()
-		}}
-	)
+	}else{
+		mostrarAlerta("Sin stock")
+		}
+	})
 
 	cardVenta.appendChild(nombre)
 	cardVenta.appendChild(genero)
 	cardVenta.appendChild(stock)
 	cardVenta.appendChild(precio)
-	cardVenta.appendChild(botonVer)
+	cardVenta.appendChild(imagen)
 	cardVenta.appendChild(botonComprar)
 	areaDeCompra.appendChild(cardVenta)
-}
 
-juegosPc.forEach(juegoPc => cardJuegos(juegoPc))
+}
 
 const areaCarrito = document.getElementById("areaCarrito")
 function mostrarCarrito(){
 	areaCarrito.innerHTML = ""
 
-	if (carrito.length === 0){
+	if (carrito.length === 0 || carrito === null){
 		areaCarrito.innerHTML = `
-            <div class="carrito-vacio-mensaje">
+            <div class="carritoVacioMensaje">
                 <p>El carrito está vacío 🛒</p>
-            </div>"`;
+            </div>`;
+		return
 	}
 
 	carrito.forEach((juego, index) => {
@@ -176,20 +195,17 @@ function mostrarCarrito(){
 		botonQuitarDelCarrito.className = "boton"
 		botonQuitarDelCarrito.addEventListener("click", () => {
 
-			const juegoEliminado = juegosPc.find(item => item.id === juego.id)
-			if (juegoEliminado){
-				juegoEliminado.stock += 1
-				carritoTotal -= juego.precio
-				console.log(`resta a carrito ${juego.precio}`)
-
-			}
-			carrito.splice(index, 1)
-			actualizarCarrito()
-			mostrarCarrito()
-			refrescarPantalla()
-			
+		const juegoEliminado = juegosPc.find(item => item.id === juego.id)
+		if (juegoEliminado){
+			juegoEliminado.stock += 1
+			carritoTotal -= juego.precio
+			console.log(`resta a carrito ${juego.precio}`)
 		}
-	)
+		carrito.splice(index, 1)
+		actualizarCarrito()
+		mostrarCarrito()
+		refrescarPantalla()
+		})
 		cardCarrito.appendChild(nombre)
 		cardCarrito.appendChild(genero)
 		cardCarrito.appendChild(precio)
@@ -202,3 +218,8 @@ const acumuladoEnCarrito = document.getElementById("acumuladoEnCarrito")
 function actualizarCarrito(){
 	acumuladoEnCarrito.innerText = `Acumulado en carrito: $ ${carritoTotal}`
 }
+
+juegosPc.forEach(juegoPc => cardJuegos(juegoPc))
+
+mostrarCarrito()
+actualizarCarrito()

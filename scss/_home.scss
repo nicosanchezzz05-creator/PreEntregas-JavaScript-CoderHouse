@@ -4,15 +4,6 @@
 	background: black;
 	min-height: 100vh;
 	margin: 0;
-
-	display: grid;
-	grid-template-rows: auto 1fr  1fr auto;
-	grid-template-columns: auto;
-	grid-template-areas: 
-	". navbar ."
-	". contenedorPrincipalHome . "
-	"footerHome footerHome footerHome"
-	;
 }
 
 .navbar{grid-area: navbar;}
@@ -20,49 +11,22 @@
 .contenedorPrincipalHome{grid-area: contenedorPrincipalHome;
 	display: flex;
 	flex-direction: column;
-	margin-top: 1%;
-	width: 100%;
-}
-
-#areaDeCompra{
-	display:grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: auto;
-	gap: 10px;
-}
-
-#areaCarrito{
-	display:grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: auto;
-	gap: 10px;
-	.boton{
-		border-radius: 5px;
-		background-color: black;
-		color: whitesmoke;
-		font-family: "Space Grotesk";
-		margin-top: auto;
-		
-	}
+	margin-top: 0 auto;
 }
 
 .footerHome{grid-area: footerHome;}
 
 .navbar{
-	background-color: rgb(7, 7, 7);
 	padding: 15px 0;
-
 	.navbar-brand{
 		margin: 20px;
 	}
-
 	.tituloNavBar{
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
 		margin-right: auto;	
-		
 		.tituloHomeCheckOut{
 			font-family: fonts.$titulos;
 			color: whitesmoke;
@@ -77,29 +41,28 @@
 		}
 	}
 }
-
-.footerHome{
-	background-color: black;
-	font-family: fonts.$titulos;
-	color: whitesmoke;
-	text-align: center;
-	margin-top: auto;
-	
-}
-
 .subtitulo{
 	font-family: fonts.$titulos;
 	color: whitesmoke;
+	background-color: rgb(52, 16, 68);
 	padding: 20px;
+	margin: 10px;
 	text-align: center;
 }
 
 .contenedorPrincipalHome{
 	#areaDeCompra{
+		display:grid;
+		grid-template-columns: 1fr 1fr 1fr ;
+		grid-template-rows: auto;
+		gap: 10px;
+		padding: 0 130px;
+		margin: 0 auto;
 		.cardVenta{
-			background-color: whitesmoke;
+			background-color: rgb(204, 195, 195);
 			color: Black;
-			padding: 10px;
+			padding: 5px;
+			border-radius: 10px;
 			h5{
 				font-family: fonts.$titulos;
 				text-align: center;
@@ -109,19 +72,47 @@
 				line-height: 5px;
 			}
 			.boton{
-				border-radius: 5px;
+				border-radius: 10px;
 				background-color: black;
 				color: whitesmoke;
 				font-family: "Space Grotesk";
 				margin-top: auto;
 			}
+			.imgJuego {
+    			width: 100%;
+    			height: 250px;
+				margin: 0 auto;
+    			object-fit: cover;
+    			border-radius: 5px 5px 0 0;
+			}
 		}
 	}
 	#areaCarrito{
+		display:grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: auto;
+		gap: 10px;
+		.boton{
+			border-radius: 5px;
+			background-color: black;
+			color: whitesmoke;
+			font-family: "Space Grotesk";
+			margin-top: auto;
+			justify-content: right;
+			}
+		.carritoVacioMensaje{
+			background-color: rgb(10, 10, 10);
+			font-family: "Space Grotesk";
+			color: whitesmoke;
+			padding: 50px;
+			text-align: center;
+			}
 		.cardCarrito{
-			background-color: whitesmoke;
+			background-color: rgb(132, 173, 77);
 			color: Black;
-			padding: 10px;
+			padding: 5px;
+			margin: 0px 100px 0px 100px;
+			border-radius: 10px;
 			h5{
 				font-family: fonts.$titulos;
 				text-align: center;
@@ -133,22 +124,24 @@
 		}
 	}
 
+.footerHome{
+	background-color: black;
+	font-family: fonts.$titulos;
+	color: whitesmoke;
+	text-align: center;
+	margin-top: auto;
+}
+
 	#acumuladoEnCarrito{
 		position: fixed;
 		color: whitesmoke;
-		background-color: rgb(3, 145, 38);
+		background-color: rgb(34, 138, 30);
 		bottom: 20px;
 		right: 20px;
 		padding: 10px;
 		border-radius: 10px 10px;
 		border: 1px solid black;
 		box-shadow: 0px 0px 15px rgb(130, 250, 114);
+		}
 	}
 
-	.carrito-vacio-mensaje{
-		background-color: rgb(10, 10, 10);
-		font-family: "Space Grotesk";
-		color: whitesmoke;
-		
-	}
-}

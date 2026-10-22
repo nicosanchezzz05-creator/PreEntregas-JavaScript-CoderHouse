@@ -2,10 +2,6 @@
   background: black;
   min-height: 100vh;
   margin: 0;
-  display: grid;
-  grid-template-rows: auto 1fr 1fr auto;
-  grid-template-columns: auto;
-  grid-template-areas: ". navbar ." ". contenedorPrincipalHome . " "footerHome footerHome footerHome";
 }
 
 .navbar {
@@ -16,29 +12,7 @@
   grid-area: contenedorPrincipalHome;
   display: flex;
   flex-direction: column;
-  margin-top: 1%;
-  width: 100%;
-}
-
-#areaDeCompra {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-  gap: 10px;
-}
-
-#areaCarrito {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto;
-  gap: 10px;
-}
-#areaCarrito .boton {
-  border-radius: 5px;
-  background-color: black;
-  color: whitesmoke;
-  font-family: "Space Grotesk";
-  margin-top: auto;
+  margin-top: 0 auto;
 }
 
 .footerHome {
@@ -46,7 +20,6 @@
 }
 
 .navbar {
-  background-color: rgb(7, 7, 7);
   padding: 15px 0;
 }
 .navbar .navbar-brand {
@@ -72,25 +45,28 @@
   margin: 0 15px 0 0;
 }
 
-.footerHome {
-  background-color: black;
-  font-family: "Cinzel";
-  color: whitesmoke;
-  text-align: center;
-  margin-top: auto;
-}
-
 .subtitulo {
   font-family: "Cinzel";
   color: whitesmoke;
+  background-color: rgb(52, 16, 68);
   padding: 20px;
+  margin: 10px;
   text-align: center;
 }
 
+.contenedorPrincipalHome #areaDeCompra {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 10px;
+  padding: 0 130px;
+  margin: 0 auto;
+}
 .contenedorPrincipalHome #areaDeCompra .cardVenta {
-  background-color: whitesmoke;
+  background-color: rgb(204, 195, 195);
   color: Black;
-  padding: 10px;
+  padding: 5px;
+  border-radius: 10px;
 }
 .contenedorPrincipalHome #areaDeCompra .cardVenta h5 {
   font-family: "Cinzel";
@@ -101,16 +77,46 @@
   line-height: 5px;
 }
 .contenedorPrincipalHome #areaDeCompra .cardVenta .boton {
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: black;
   color: whitesmoke;
   font-family: "Space Grotesk";
   margin-top: auto;
 }
+.contenedorPrincipalHome #areaDeCompra .cardVenta .imgJuego {
+  width: 100%;
+  height: 250px;
+  margin: 0 auto;
+  object-fit: cover;
+  border-radius: 5px 5px 0 0;
+}
+.contenedorPrincipalHome #areaCarrito {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 10px;
+}
+.contenedorPrincipalHome #areaCarrito .boton {
+  border-radius: 5px;
+  background-color: black;
+  color: whitesmoke;
+  font-family: "Space Grotesk";
+  margin-top: auto;
+  justify-content: right;
+}
+.contenedorPrincipalHome #areaCarrito .carritoVacioMensaje {
+  background-color: rgb(10, 10, 10);
+  font-family: "Space Grotesk";
+  color: whitesmoke;
+  padding: 50px;
+  text-align: center;
+}
 .contenedorPrincipalHome #areaCarrito .cardCarrito {
-  background-color: whitesmoke;
+  background-color: rgb(132, 173, 77);
   color: Black;
-  padding: 10px;
+  padding: 5px;
+  margin: 0px 100px 0px 100px;
+  border-radius: 10px;
 }
 .contenedorPrincipalHome #areaCarrito .cardCarrito h5 {
   font-family: "Cinzel";
@@ -120,21 +126,23 @@
   font-family: "Space Grotesk";
   line-height: 5px;
 }
+.contenedorPrincipalHome .footerHome {
+  background-color: black;
+  font-family: "Cinzel";
+  color: whitesmoke;
+  text-align: center;
+  margin-top: auto;
+}
 .contenedorPrincipalHome #acumuladoEnCarrito {
   position: fixed;
   color: whitesmoke;
-  background-color: rgb(3, 145, 38);
+  background-color: rgb(34, 138, 30);
   bottom: 20px;
   right: 20px;
   padding: 10px;
   border-radius: 10px 10px;
   border: 1px solid black;
   box-shadow: 0px 0px 15px rgb(130, 250, 114);
-}
-.contenedorPrincipalHome .carrito-vacio-mensaje {
-  background-color: rgb(10, 10, 10);
-  font-family: "Space Grotesk";
-  color: whitesmoke;
 }
 
 /*# sourceMappingURL=main.css.map */
