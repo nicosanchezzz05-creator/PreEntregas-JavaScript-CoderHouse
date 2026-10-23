@@ -1,22 +1,15 @@
 .bodyHome {
   background: black;
   min-height: 100vh;
-  margin: 0;
-}
-
-.navbar {
-  grid-area: navbar;
-}
-
-.contenedorPrincipalHome {
-  grid-area: contenedorPrincipalHome;
-  display: flex;
-  flex-direction: column;
-  margin-top: 0 auto;
+  margin: 1;
 }
 
 .footerHome {
-  grid-area: footerHome;
+  background-color: black;
+  font-family: "Cinzel";
+  color: whitesmoke;
+  text-align: center;
+  margin-top: auto;
 }
 
 .navbar {
@@ -54,6 +47,11 @@
   text-align: center;
 }
 
+.contenedorPrincipalHome {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0 auto;
+}
 .contenedorPrincipalHome #areaDeCompra {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -126,14 +124,8 @@
   font-family: "Space Grotesk";
   line-height: 5px;
 }
-.contenedorPrincipalHome .footerHome {
-  background-color: black;
-  font-family: "Cinzel";
-  color: whitesmoke;
-  text-align: center;
-  margin-top: auto;
-}
-.contenedorPrincipalHome #acumuladoEnCarrito {
+
+#acumuladoEnCarrito {
   position: fixed;
   color: whitesmoke;
   background-color: rgb(34, 138, 30);
