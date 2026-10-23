@@ -1,5 +1,3 @@
-
-// let openStore = true
 let carrito = []
 let carritoTotal = 0
 
@@ -144,14 +142,10 @@ function cardJuegos(juegosPc){
 	if (juegosPc.stock > 0){
 		juegosPc.stock -= 1
 		carritoTotal += juegosPc.precio
-		console.log(`suma a carrito: ${juegosPc.precio} | total de carrito: ${carritoTotal}`)
 		actualizarCarrito()
 		carrito.push(juegosPc)
-		
 		mostrarCarrito()
 		refrescarPantalla()
-	}else{
-		mostrarAlerta("Sin stock")
 		}
 	})
 
@@ -199,7 +193,6 @@ function mostrarCarrito(){
 		if (juegoEliminado){
 			juegoEliminado.stock += 1
 			carritoTotal -= juego.precio
-			console.log(`resta a carrito ${juego.precio}`)
 		}
 		carrito.splice(index, 1)
 		actualizarCarrito()
